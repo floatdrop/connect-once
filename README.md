@@ -52,10 +52,6 @@ Emitted once, when connection is available. For retrieving saved results use `wh
 
 Emitted on each reconnection try.
 
-#### error
-
-Emitted after retries count is equal zero.
-
 # License
 
 (MIT License) (c) 2013 Vsevolod Strukchinsky (floatdrop@gmail.com)

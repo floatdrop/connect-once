@@ -22,7 +22,7 @@ describe('connectOnce', function () {
             should(err).eql(errorSample);
         });
 
-        connection.on('error', function (err) {
+        connection.when('available', function (err) {
             reconnects.should.eql(4);
             should(err).eql(errorSample);
             done();

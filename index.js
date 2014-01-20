@@ -21,16 +21,15 @@ Connection.prototype = Object.create(require('events').EventEmitter.prototype);
 Connection.prototype.retry = function retry() {
     var args = Array.prototype.slice.call(arguments);
     var error = args[0];
-    if (!error) {
+    this.options.retries --;
+
+    if (!error || this.options.retries <= 0) {
         this.result = args;
         return this.emit.apply(this,
             ['available']
             .concat(this.result)
         );
     }
-
-    this.options.retries --;
-    if (this.options.retries === 0) { return this.emit('error', error); }
 
     this.emit('reconnect', error);
     return setTimeout(function () {
