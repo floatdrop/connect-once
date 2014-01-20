@@ -3,24 +3,28 @@
 
 ## Usage
 
+Install package with npm:
+
+```npm i connect-once --save```
+
 ```js
+var connectOnce = require('connect-once');
+
 var connection = new connectOnce({ 
     retries: 60, 
     reconnectWait: 1000
 }, MongoClient.connect, 'mongodb://localhost/test');
 
 connection.when('available', function (err, db) {
-    if (err) {
-        return next(err);
-    }
-    req.db = db;
-    next();
+    // Do stuff
 });
 ```
 
 ## API
 
 ### connect-once([options,] connectFunction[, connectArguments ...])
+
+Returns event emitter that will notify you, when connection is available and save it for next usages.
 
 ### Options:
 
@@ -31,6 +35,26 @@ Default: `5`
 #### options.reconnectWait
 Type: `Number`
 Default: `1000`
+
+### Methods:
+
+#### when(event, callback)
+
+This is wrapper around `once` method. If event is equal `available` - then it will check saved results from callback, and they absent attach `callback` with `once` method on event `available`.
+
+### Events:
+
+#### available
+
+Emitted once, when connection is available. For retrieving saved results use `when` method.
+
+#### reconnect
+
+Emitted on each reconnection try.
+
+#### error
+
+Emitted after retries count is equal zero.
 
 # License
 
