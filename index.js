@@ -4,6 +4,8 @@ function Connection() {
     var args = Array.prototype.slice.apply(arguments);
 
     this.options = (args.length > 1 && typeof args[0] === 'object') ? args.shift() : {};
+    this.options.retries = this.options.retries || 5;
+    this.options.reconnectWait = this.options.reconnectWait || 1000;
 
     if (typeof args[0] !== 'function') { throw new Error('Provided callback is not a function'); }
     this.connect = args.shift();
@@ -27,8 +29,8 @@ Connection.prototype.retry = function retry() {
         );
     }
 
-    this.retries --;
-    if (this.retries === 0) { return this.emit('error', error); }
+    this.options.retries --;
+    if (this.options.retries === 0) { return this.emit('error', error); }
 
     this.emit('reconnect', error);
     return setTimeout(function () {

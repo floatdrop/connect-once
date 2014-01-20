@@ -8,6 +8,27 @@ var connectOnce = require('..'),
 
 describe('connectOnce', function () {
 
+    it('should give retries count before error event', function (done) {
+        var errorSample = new Error('Bang Bang!');
+
+        var connection = new connectOnce({ retries: 5, reconnectWait: 10 }, function (cb) {
+            setTimeout(cb, 1, errorSample);
+        });
+
+        var reconnects = 0;
+
+        connection.on('reconnect', function (err) {
+            reconnects += 1;
+            should(err).eql(errorSample);
+        });
+
+        connection.on('error', function (err) {
+            reconnects.should.eql(4);
+            should(err).eql(errorSample);
+            done();
+        });
+    });
+
     it('should call async `connect` function once', function (done) {
         var connection = new connectOnce(function (cb) {
             setTimeout(cb, 1, null, 'string');
