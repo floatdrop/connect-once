@@ -8,7 +8,10 @@ function Connection() {
     if (typeof args[0] !== 'function') { throw new Error('Provided callback is not a function'); }
     this.connect = args.shift();
     this.arguments = args;
-    this.connect.call(this.connect, args, this.retry);
+    this.connect.apply(
+        this.connect,
+        [].concat(args || []).concat(this.retry.bind(this))
+    );
 }
 
 Connection.prototype = Object.create(require('events').EventEmitter.prototype);
@@ -18,7 +21,10 @@ Connection.prototype.retry = function retry() {
     var error = args[0];
     if (!error) {
         this.result = args;
-        return this.emit.apply(this, ['available'].concat(this.arguments));
+        return this.emit.apply(this,
+            ['available']
+            .concat(this.result)
+        );
     }
 
     this.retries --;
@@ -26,7 +32,10 @@ Connection.prototype.retry = function retry() {
 
     this.emit('reconnect', error);
     return setTimeout(function () {
-        this.connect.call(this.connect, this.arguments, this.retry);
+        this.connect.apply(this.connect,
+            [].concat(this.arguments || [])
+            .concat([this.retry.bind(this)])
+        );
     }.bind(this), this.options.reconnectWait);
 };
 
@@ -36,7 +45,7 @@ Connection.prototype.when = function when() {
         args.length === 2 && // if it when('available', funciton)
         args[0] === 'available' &&
         typeof args[1] === 'function') { // then apply cached results
-        return args[1].apply(null, this.arguments);
+        return args[1].apply(null, this.result);
     }
     this.once.apply(this, args);
 };
