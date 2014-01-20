@@ -7,6 +7,49 @@ var connectOnce = require('..'),
     should = require('should');
 
 describe('connectOnce', function () {
+
+    it('should call async `connect` function once', function (done) {
+        var connection = new connectOnce(function (cb) {
+            setTimeout(cb, 1, null, 'string');
+            done();
+        });
+
+        function check(err, str) {
+            should.not.exist(err);
+            should.exist(str);
+            str.should.eql('string');
+        }
+
+        connection.when('available', check);
+        connection.when('available', check);
+    });
+
+    it('should call `connect` function once', function (done) {
+        var connection = new connectOnce(function (cb) {
+            cb(null, 'string');
+            done();
+        });
+
+        function check(err, str) {
+            should.not.exist(err);
+            should.exist(str);
+            str.should.eql('string');
+        }
+
+        connection.when('available', check);
+        connection.when('available', check);
+    });
+
+    it('should save results and call `when` immediately', function (done) {
+        var connection = new connectOnce(function (cb) { cb(null, 'string'); });
+        connection.when('available', function (err, str) {
+            should.not.exist(err);
+            should.exist(str);
+            str.should.eql('string');
+            done();
+        });
+    });
+
     it('should emit available', function (done) {
         var connection = new connectOnce(function (cb) { setTimeout(cb, 1, null, 'string'); });
         connection.on('available', function (err, str) {
