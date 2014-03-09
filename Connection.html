@@ -215,6 +215,121 @@ when connect function callback will be called.
         </tr>
 	
 	
+	
+        <tr>
+            
+                <td class="name"><code>heartbeat</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                </td>
+            
+            
+            <td class="description last">Function, that will check connection from time to time.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>heartbeatTimeout</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                    800
+                
+                </td>
+            
+            
+            <td class="description last">Milliseconds before heartbeat function counts as failed.</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>heartbeatInterval</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+                    
+                
+                    
+                
+                </td>
+            
+            
+            
+                <td class="default">
+                
+                    1000
+                
+                </td>
+            
+            
+            <td class="description last">Milliseconds between heartbeats calls.</td>
+        </tr>
+	
+	
 	</tbody>
 </table>
             </td>
@@ -314,7 +429,7 @@ when connect function callback will be called.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line14">line 14</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line17">line 17</a>
     </li></ul></dd>
     
     
@@ -358,6 +473,75 @@ when connect function callback will be called.
         <h3 class="subsection-title">Methods</h3>
         
         <dl>
+            
+<dt>
+    <h4 class="name" id="checkPulse"><span class="type-signature"></span>checkPulse<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        This method starts checking connection with heartbeat function.
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
             
 <dt>
     <h4 class="name" id="retry"><span class="type-signature"></span>retry<span class="signature">()</span><span class="type-signature"></span></h4>
@@ -404,7 +588,7 @@ options and emit `available` with error as first argument on retries == 0.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line43">line 43</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line50">line 50</a>
     </li></ul></dd>
     
     
@@ -475,7 +659,7 @@ then it will check saved results from callback, and they absent attach
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line85">line 85</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line116">line 116</a>
     </li></ul></dd>
     
     
@@ -553,7 +737,7 @@ Contains all arguments that was called by connect function callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line52">line 52</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line64">line 64</a>
     </li></ul></dd>
     
     
@@ -622,7 +806,7 @@ Contains all arguments that was called by connect function callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line64">line 64</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line76">line 76</a>
     </li></ul></dd>
     
     
@@ -665,7 +849,7 @@ Contains all arguments that was called by connect function callback.
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Sun Mar 09 2014 20:34:24 GMT+0600 (YEKT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Mon Mar 10 2014 01:07:20 GMT+0600 (YEKT)
 </footer>
 
 <script> prettyPrint(); </script>
