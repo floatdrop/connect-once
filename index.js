@@ -9,7 +9,9 @@
  * @param {Number} [options.retries=5] - Number of retries before emitting error
  * @param {Number} [options.reconnectWait=1000] - Milliseconds between reconnect trys.
  * @param {Function} connect - Function to be called with following arguments to get connection
- * @params {...Object} [arguments] - Arguments for connect function
+ * @param {...Object} [arguments] - Arguments for connect function
+ * @event Connection#available - Emitted once, when connection is available. For retrieving saved results use `when` method.
+ * @event Connection#reconnect - Emitted on each reconnection try.
  */
 function Connection() {
     var args = Array.prototype.slice.apply(arguments);
@@ -65,8 +67,9 @@ Connection.prototype.retry = function retry() {
 };
 
 /**
- * Wrapper around `on` method, that will call passed callback if
- * this.results is present or attach listener otherwise.
+ * This is wrapper around `once` method. If event is equal `available` -
+ * then it will check saved results from callback, and they absent attach
+ * `callback` with `once` method on event `available`.
  *
  * @method
  */

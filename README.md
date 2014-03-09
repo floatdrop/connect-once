@@ -5,7 +5,9 @@
 
 Install package with npm:
 
-```npm i connect-once --save```
+`npm i connect-once --save`
+
+Then create a connection:
 
 ```js
 var connectOnce = require('connect-once');
@@ -22,35 +24,7 @@ connection.when('available', function (err, db) {
 
 ## API
 
-### connect-once([options,] connectFunction[, connectArguments ...])
-
-Returns event emitter that will notify you, when connection is available and save it for next usages.
-
-### Options:
-
-#### options.retries
-Type: `Number`
-Default: `5`
-
-#### options.reconnectWait
-Type: `Number`
-Default: `1000`
-
-### Methods:
-
-#### when(event, callback)
-
-This is wrapper around `once` method. If event is equal `available` - then it will check saved results from callback, and they absent attach `callback` with `once` method on event `available`.
-
-### Events:
-
-#### available
-
-Emitted once, when connection is available. For retrieving saved results use `when` method.
-
-#### reconnect
-
-Emitted on each reconnection try.
+Read the [documentation of Connection class](http://floatdrop.github.io/connect-once/Connection.html). 
 
 # License
 
