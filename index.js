@@ -1,7 +1,5 @@
 'use strict';
 
-var async = require('async');
-
 /**
  * Creates event emitter, which will pass connection to listeners,
  * when connect function callback will be called.
@@ -89,6 +87,11 @@ Connection.prototype.retry = function retry() {
     }.bind(this), this.options.reconnectWait);
 };
 
+/**
+ * This method starts checking connection with heartbeat function.
+ *
+ * @method
+ */
 Connection.prototype.checkPulse = function checkPulse(args) {
     var timer = setTimeout(function () {
         this.retry(new Error('Connection is dead'));

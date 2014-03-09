@@ -22,6 +22,28 @@ connection.when('available', function (err, db) {
 });
 ```
 
+## Heartbeat
+
+Heartbeat is useful, when you want check connection from time to time. For example, if you working with mongodb and cache connection to db - what happens when server, which connection binded to goes to heaven? Connection is lost and programmer should recreate it.
+
+__Note:__ for now there is no way to stop heartbeats.
+
+```js
+var connectOnce = require('connect-once');
+
+var connection = new connectOnce({ 
+    heartbeat: function (db, beat) {
+        db.stats(function (err) {
+            if (!err) { beat(); }
+        });
+    }
+}, MongoClient.connect, 'mongodb://localhost/test');
+
+connection.when('available', function (err, db) {
+    // Do stuff
+});
+```
+
 ## API
 
 Read the [documentation of Connection class](http://floatdrop.github.io/connect-once/Connection.html). 
