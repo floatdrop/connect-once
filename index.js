@@ -10,8 +10,6 @@
  * @param {Number} [options.reconnectWait=1000] - Milliseconds between reconnect trys.
  * @param {Function} connect - Function to be called with following arguments to get connection
  * @param {...Object} [arguments] - Arguments for connect function
- * @event Connection#available - Emitted once, when connection is available. For retrieving saved results use `when` method.
- * @event Connection#reconnect - Emitted on each reconnection try.
  */
 function Connection() {
     var args = Array.prototype.slice.apply(arguments);
@@ -51,12 +49,23 @@ Connection.prototype.retry = function retry() {
     if (!error || this.retries <= 0) {
         this.retries = this.options.retries;
         this.result = args;
+        /**
+         * Emitted once, when connection is available. For retrieving saved results use `when` method.
+         * Contains all arguments that was called by connect function callback.
+         *
+         * @event Connection#available
+         */
         return this.emit.apply(this,
             ['available']
             .concat(this.result)
         );
     }
 
+    /**
+     * Emitted on each reconnection try. Contains error, that happened on connection try
+     *
+     * @event Connection#reconnect
+     */
     this.emit('reconnect', error);
     return setTimeout(function () {
         this.connect.apply(
