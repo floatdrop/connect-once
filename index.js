@@ -1,5 +1,7 @@
 'use strict';
 
+var async = require('async');
+
 /**
  * Creates event emitter, which will pass connection to listeners,
  * when connect function callback will be called.
@@ -8,6 +10,9 @@
  * @param {Object} [options] - Options for establishing connection
  * @param {Number} [options.retries=5] - Number of retries before emitting error
  * @param {Number} [options.reconnectWait=1000] - Milliseconds between reconnect trys.
+ * @param {Function} [options.heartbeat] - Function, that will check connection from time to time.
+ * @param {Number} [options.heartbeatTimeout=800] - Milliseconds before heartbeat function counts as failed.
+ * @param {Number} [options.heartbeatInterval=1000] - Milliseconds between heartbeats calls.
  * @param {Function} connect - Function to be called with following arguments to get connection
  * @param {...Object} [arguments] - Arguments for connect function
  */
@@ -18,6 +23,10 @@ function Connection() {
     this.options.retries = this.options.retries || 5;
     this.retries = this.options.retries;
     this.options.reconnectWait = this.options.reconnectWait || 1000;
+
+    if (this.options.heartbeat && typeof this.options.heartbeat !== 'function') { throw new Error('Provided heartbeat is not a function'); }
+    this.options.heartbeatTimeout = this.options.heartbeatTimeout || 800;
+    this.options.heartbeatInterval = this.options.heartbeatInterval || 1000;
 
     this.connect = args.shift();
     if (typeof this.connect !== 'function') { throw new Error('Provided callback is not a function'); }
@@ -49,6 +58,11 @@ Connection.prototype.retry = function retry() {
     if (!error || this.retries <= 0) {
         this.retries = this.options.retries;
         this.result = args;
+
+        if (!error && this.options.heartbeat) {
+            this.checkPulse(args);
+        }
+
         /**
          * Emitted once, when connection is available. For retrieving saved results use `when` method.
          * Contains all arguments that was called by connect function callback.
@@ -73,6 +87,20 @@ Connection.prototype.retry = function retry() {
             this.arguments.concat([this.retry.bind(this)])
         );
     }.bind(this), this.options.reconnectWait);
+};
+
+Connection.prototype.checkPulse = function checkPulse(args) {
+    var timer = setTimeout(function () {
+        this.retry(new Error('Connection is dead'));
+    }.bind(this), this.options.heartbeatTimeout);
+
+    this.options.heartbeat.apply(
+        this,
+        args.concat([function () {
+            clearTimeout(timer);
+            setTimeout(this.checkPulse.bind(this), this.options.heartbeatInterval, args);
+        }.bind(this)])
+    );
 };
 
 /**

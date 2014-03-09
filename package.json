@@ -27,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/floatdrop/connect-once/issues"
   },
-  "homepage": "https://github.com/floatdrop/connect-once"
+  "homepage": "https://github.com/floatdrop/connect-once",
+  "dependencies": {
+    "async": "~0.2.10"
+  }
 }

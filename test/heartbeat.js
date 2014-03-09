@@ -27,7 +27,7 @@ describe('heartbeat', function () {
             heartbeat: function (beat) {
                 beat();
                 beats ++;
-                if (beats > 5) {
+                if (beats === 5) {
                     done();
                 }
             }
@@ -41,13 +41,13 @@ describe('heartbeat', function () {
     it('should pass parameters and beat function to heartbeat', function (done) {
         new connectOnce({
             heartbeatInterval: 10,
-            heartbeat: function (one, two, beat) {
+            heartbeat: function (error, one, two, beat) {
                 is.fn(beat).should.be.ok;
                 one.should.eql('one');
                 two.should.eql('two');
                 done();
             }
-        }, function (cb) { cb('one', 'two'); });
+        }, function (cb) { cb(null, 'one', 'two'); });
     });
 
     it('should call heatbeat function', function (done) {
