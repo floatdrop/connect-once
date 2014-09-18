@@ -1,6 +1,6 @@
 {
   "name": "connect-once",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Request connection once and memorize it for later",
   "main": "index.js",
   "scripts": {
