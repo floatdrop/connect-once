@@ -31,13 +31,17 @@ function Connection() {
 
     this.arguments = args || [];
 
-    this.connect.apply(
-        this.connect,
-        args.concat([this.retry.bind(this)])
-    );
+    this.reconnect();
 }
 
 Connection.prototype = Object.create(require('events').EventEmitter.prototype);
+
+Connection.prototype.reconnect = function () {
+    return this.connect.apply(
+        this.connect,
+        this.arguments.concat([this.retry.bind(this)])
+    );
+};
 
 /**
  * Callback, that will be passed to connect function. When connection is available
@@ -79,12 +83,7 @@ Connection.prototype.retry = function retry() {
      * @event Connection#reconnect
      */
     this.emit('reconnect', error);
-    return setTimeout(function () {
-        this.connect.apply(
-            this.connect,
-            this.arguments.concat([this.retry.bind(this)])
-        );
-    }.bind(this), this.options.reconnectWait);
+    return setTimeout(this.reconnect.bind(this), this.options.reconnectWait);
 };
 
 /**
