@@ -1,4 +1,7 @@
-# connect-once [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependency Status][depstat-image]][depstat-url]
+# connect-once [![Build Status][travis-image]][travis-url]
+
+:warning: __Deprecated. Use Promises instead.__
+
 > Memorizing async function result
 
 This module solves [problem](http://stackoverflow.com/questions/6275643/node-js-design-pattern-for-creating-db-connection-once/25209316#25209316) with connection creating in Node.JS.
@@ -84,7 +87,7 @@ You can read [source code](https://github.com/floatdrop/connect-once/blob/master
 [npm-image]: https://badge.fury.io/js/connect-once.png
 
 [travis-url]: http://travis-ci.org/floatdrop/connect-once
-[travis-image]: https://travis-ci.org/floatdrop/connect-once.png?branch=master
+[travis-image]: https://travis-ci.org/floatdrop/connect-once.svg?branch=master&style=flat
 
 [coveralls-url]: https://coveralls.io/r/floatdrop/connect-once
 [coveralls-image]: https://coveralls.io/repos/floatdrop/connect-once/badge.png
